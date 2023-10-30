@@ -10,6 +10,16 @@ import src.TransportType;
  */
 public class Transport implements IEdge<City>, ITransport {
 
+    City source;
+
+    City destination;
+
+    TransportType type;
+
+    double price;
+
+    double minutes;
+
     /**
      * Constructor for Transport
      * @param source  Source city (for this edge)
@@ -21,42 +31,53 @@ public class Transport implements IEdge<City>, ITransport {
     public Transport(City source, City destination, TransportType type, double price,
                      double minutes) {
         // TODO: implement this method
+        this.source = source;
+        this.destination = destination;
+        this.type = type;
+        this.price = price;
+        this.minutes = minutes;
     }
 
 
+    /**
+     * getter method for source city
+     * TODO: maybe we can just return the name, or otherwise protect the reference
+     * @return city at the source of the edge
+     */
     @Override
     public City getSource() {
-        // TODO: implement this method
-        return null;
+        return this.source;
     }
 
+    /**
+     * method for grabbing the target destination
+     * TODO: practice defensive programming here later
+     * @return the destination city for this edge
+     */
     @Override
     public City getTarget() {
-        // TODO: implement this method
-        return null;
+        return this.destination;
     }
 
     /**
      * Gets the cost of this transport
-     *
+     * TODO: practice defensive programming here
      * @return the price
      */
     @Override
     public double getPrice() {
-        // TODO: implement this method
-        return 0;
+        return this.price;
     }
 
 
     /**
-     * Gets the type of this transport, as a String ("Bus", "Plane", etc)
-     *
-     * @return the transport
+     * Gets the length this transport is supposed to take
+     * TODO: practice defensive programming
+     * @return the time as a double
      */
     @Override
     public double getMinutes() {
-        // TODO: implement this method
-        return 0;
+        return this.minutes;
     }
 
     /**
@@ -66,8 +87,7 @@ public class Transport implements IEdge<City>, ITransport {
      */
     @Override
     public String getType() {
-        // TODO: implement this method
-        return null;
+        return this.type.toString();
     }
 
     @Override
