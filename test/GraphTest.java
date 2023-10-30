@@ -1,6 +1,10 @@
 package test;
 
 import org.junit.Test;
+import sol.City;
+import sol.Transport;
+import sol.TravelGraph;
+import src.TransportType;
 import test.simple.SimpleEdge;
 import test.simple.SimpleGraph;
 import test.simple.SimpleVertex;
@@ -20,15 +24,25 @@ import static org.junit.Assert.assertTrue;
  */
 public class GraphTest {
     private SimpleGraph graph;
+    private TravelGraph travelGraph;
 
     private SimpleVertex a;
     private SimpleVertex b;
     private SimpleVertex c;
+    private City girard;
+    private City golden;
+    private City clovis;
+
 
     private SimpleEdge edgeAB;
     private SimpleEdge edgeBC;
     private SimpleEdge edgeCA;
     private SimpleEdge edgeAC;
+    private Transport girardClovis;
+    private Transport clovisGolden;
+    private Transport goldenGirard;
+    private Transport girardGolden;
+
 
     /**
      * Creates a simple graph.
@@ -59,6 +73,32 @@ public class GraphTest {
         this.graph.addEdge(this.b, this.edgeBC);
         this.graph.addEdge(this.c, this.edgeCA);
         this.graph.addEdge(this.a, this.edgeAC);
+    }
+
+    private void createNewGraph() {
+        this.travelGraph = new TravelGraph();
+
+        this.clovis = new City("Clovis");
+        this.girard = new City("Girard");
+        this.golden = new City("Golden");
+
+        this.travelGraph.addVertex(this.clovis);
+        this.travelGraph.addVertex(this.girard);
+        this.travelGraph.addVertex(this.golden);
+
+        //i am not testing if the transport connects to the right object
+        //maybe we should????
+        //but maybe we deal with this when we create our graph
+        this.clovisGolden = new Transport(new City("Clovis"), new City("Golden"), TransportType.TRAIN, 20, 240);
+        this.girardClovis = new Transport(this.girard, new City("Clovis"), TransportType.PLANE, 100, 20);
+        this.girardGolden = new Transport(new City("Girard"), this.golden, TransportType.BUS, 10, 100);
+        this.goldenGirard = new Transport(this.golden, this.girard, TransportType.PLANE, 40, 40);
+
+        this.travelGraph.addEdge(this.clovis, this.clovisGolden);
+        this.travelGraph.addEdge(new City("Girard"), this.girardGolden);
+        this.travelGraph.addEdge(this.girard, this.girardClovis);
+        this.travelGraph.addEdge(this.golden, this.goldenGirard);
+
     }
 
     /**
