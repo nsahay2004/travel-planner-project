@@ -48,17 +48,15 @@ public class City implements IVertex<Transport> {
      */
     @Override
     public void addOut(Transport outEdge) {
-        this.transportEdges.add(outEdge);
-        // TODO: implement this method
+        if (!this.transportEdges.contains(outEdge)) {
+            this.transportEdges.add(outEdge);
+            // TODO: implement this method
+        }
     }
 
     @Override
     public String toString() {
-        String edges = "";
-        for(Transport t: this.transportEdges){
-           edges =  edges + t.destination.cityName + ", ";
-        }
-
-        return this.cityName + " goes to: " + edges; // TODO
+        return this.cityName;
+        // TODO
     }
 }
