@@ -11,9 +11,9 @@ import java.util.Set;
  */
 public class City implements IVertex<Transport> {
 
-    public String cityName;
+    private  String cityName;
 
-    public HashSet<Transport> transportEdges;
+    private HashSet<Transport> transportEdges;
 
     /**
      * Constructor for a City
@@ -23,6 +23,11 @@ public class City implements IVertex<Transport> {
         this.cityName = name;
         this.transportEdges = new HashSet<Transport>();
         // TODO: implement this method
+    }
+
+
+    public String getCityName(){
+        return this.cityName;
     }
 
     /**
