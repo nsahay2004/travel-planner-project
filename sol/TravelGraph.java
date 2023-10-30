@@ -12,6 +12,14 @@ import java.util.Set;
 public class TravelGraph implements IGraph<City, Transport> {
 
     HashMap<String, City> travelMap;
+
+    /**
+     * constructor for a graph
+     */
+    public TravelGraph() {
+        this.travelMap = new HashMap<>();
+    }
+
     /**
      * Adds a vertex to the graph.
      *
