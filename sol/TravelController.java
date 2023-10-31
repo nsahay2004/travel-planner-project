@@ -78,7 +78,7 @@ public class TravelController implements ITravelController<City, Transport> {
      */
     @Override
     public List<Transport> fastestRoute(String source, String destination) {
-        // TODO: implement this method!
+        Function<Transport, Double> getTime = edge -> edge.getMinutes();
         return new ArrayList<>();
     }
 
@@ -93,6 +93,7 @@ public class TravelController implements ITravelController<City, Transport> {
     @Override
     public List<Transport> cheapestRoute(String source, String destination) {
         // TODO: implement this method!
+        Function<Transport, Double> getCost = edge -> edge.getPrice();
         return new ArrayList<>();
     }
 
