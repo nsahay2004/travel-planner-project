@@ -1,6 +1,8 @@
 package test;
 
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 import sol.City;
 import sol.Transport;
 import sol.TravelGraph;
@@ -8,9 +10,12 @@ import src.TransportType;
 import test.simple.SimpleEdge;
 import test.simple.SimpleGraph;
 import test.simple.SimpleVertex;
+import org.junit.FixMethodOrder;
+import org.junit.Before;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 /**
  * Your Graph method tests should all go in this class!
@@ -22,6 +27,7 @@ import static org.junit.Assert.assertTrue;
  * TODO: Recreate the test below for the City and Transport classes
  * TODO: Expand on your tests, accounting for basic cases and edge cases
  */
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class GraphTest {
     private SimpleGraph graph;
     private TravelGraph travelGraph;
@@ -43,6 +49,8 @@ public class GraphTest {
     private Transport goldenGirard;
     private Transport girardGolden;
 
+    private City london;
+
 
     /**
      * Creates a simple graph.
@@ -52,7 +60,10 @@ public class GraphTest {
      *
      * TODO: create more setup methods!
      */
-    private void createSimpleGraph() {
+
+
+    @Before
+    public void createNewGraph() {
         this.graph = new SimpleGraph();
 
         this.a = new SimpleVertex("A");
@@ -73,18 +84,18 @@ public class GraphTest {
         this.graph.addEdge(this.b, this.edgeBC);
         this.graph.addEdge(this.c, this.edgeCA);
         this.graph.addEdge(this.a, this.edgeAC);
-    }
 
-    private void createNewGraph() {
         this.travelGraph = new TravelGraph();
 
         this.clovis = new City("Clovis");
         this.girard = new City("Girard");
         this.golden = new City("Golden");
+        this.london = new City("London");
 
         this.travelGraph.addVertex(this.clovis);
         this.travelGraph.addVertex(this.girard);
         this.travelGraph.addVertex(this.golden);
+        this.travelGraph.addVertex(this.london);
 
         //i am not testing if the transport connects to the right object
         //maybe we should????
@@ -106,13 +117,39 @@ public class GraphTest {
      */
     @Test
     public void testGetVertices() {
-        this.createSimpleGraph();
+
 
         // test getVertices to check this method AND insertVertex
-        assertEquals(this.graph.getVertices().size(), 3);
-        assertTrue(this.graph.getVertices().contains(this.a));
-        assertTrue(this.graph.getVertices().contains(this.b));
-        assertTrue(this.graph.getVertices().contains(this.c));
+        assertEquals(this.travelGraph.getVertices().size(), 3);
+        assertTrue(this.travelGraph.getVertices().contains(this.clovis));
+        assertTrue(this.travelGraph.getVertices().contains(this.girard));
+        assertTrue(this.travelGraph.getVertices().contains(this.golden));
+        assertFalse(this.travelGraph.getVertices().contains(new City("Boston")));
+        City boston = new City ("Boston");
+        this.travelGraph.addVertex(boston);
+       assertTrue(this.travelGraph.getVertices().contains(boston));
+    }
+
+    @Test
+    public void testGetEdgeSourceAndTarget(){
+        assertEquals("Clovis", this.clovisGolden.getSource().getCityName());
+        assertEquals("Girard", this.girardGolden.getSource().getCityName());
+        assertEquals("Golden", this.clovisGolden.getTarget().getCityName());
+        assertEquals("Golden", this.girardGolden.getTarget().getCityName());
+    }
+
+    @Test
+    public void testGetOutgoingEdges(){
+        assertEquals(this.travelGraph.getOutgoingEdges(this.clovis).size(),1);
+        assertTrue(this.travelGraph.getOutgoingEdges(this.clovis).contains(this.clovisGolden));
+        assertEquals(this.travelGraph.getOutgoingEdges(this.girard).size(),2);
+        assertTrue(this.travelGraph.getOutgoingEdges(this.girard).contains(this.girardGolden));
+        assertEquals(this.travelGraph.getOutgoingEdges(this.london).size(),0);
+        Transport clovisGirard = new Transport(this.clovis, this.girard, TransportType.PLANE, 12, 87);
+        assertFalse(this.travelGraph.getOutgoingEdges(this.clovis).contains(clovisGirard));
+        this.travelGraph.addEdge(this.clovis,clovisGirard);
+        assertTrue(this.travelGraph.getOutgoingEdges(this.clovis).contains(clovisGirard));
+
     }
 
     // TODO: write more tests + make sure you test all the cases in your testing plan!
