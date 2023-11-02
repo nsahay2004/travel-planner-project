@@ -5,7 +5,9 @@ import src.IEdge;
 import src.IGraph;
 import src.IVertex;
 
-import java.util.List;
+import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Implementation for BFS, implements IBFS interface
@@ -24,8 +26,35 @@ public class BFS<V extends IVertex<E>, E extends IEdge<V>> implements IBFS<V, E>
      */
     @Override
     public List<E> getPath(IGraph<V, E> graph, V start, V end) {
-        // TODO: implement the getPath method!
-        return null;
+        LinkedList<V> toCheck  = new LinkedList<V>();
+        HashSet<V> visited = new HashSet<V>();
+        HashMap<V,E> cameFrom = new HashMap<V,E>();
+        toCheck.add(start);
+        visited.add(start);
+
+        while(!toCheck.isEmpty()) {
+            V checkingVertex = toCheck.removeFirst();
+            if(checkingVertex.equals(end)){
+                ArrayList<E> retList = new ArrayList<E>();
+                V checking = end;
+                while(checking != start){
+                    E newEdge = cameFrom.get(checking);
+                    retList.add(0,newEdge);
+                    checking  = newEdge.getSource();
+                }
+                return retList;
+            }
+            for (E neighbourEdge : checkingVertex.getOutgoing()){
+                if (!visited.contains(neighbourEdge.getTarget())){
+                    visited.add(neighbourEdge.getTarget());
+                    toCheck.add(neighbourEdge.getTarget());
+                    cameFrom.put(neighbourEdge.getTarget(), neighbourEdge);
+
+                }
+            }
+        }
+        return new ArrayList<>();
+
     }
 
     // TODO: feel free to add your own methods here!

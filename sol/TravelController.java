@@ -95,12 +95,22 @@ public class TravelController implements ITravelController<City, Transport> {
      * @return the path starting from the source to the destination,
      * or empty if there is none
      */
+
+    Function <Transport,Double> timeEdgeWeight = t -> t.getMinutes();
+    Function <Transport, Double> priceEdgeWeight = t -> t.getPrice();
     @Override
     public List<Transport> fastestRoute(String source, String destination) {
-        Function<Transport, Double> getTime = edge -> edge.getMinutes();
-        return new ArrayList<>();
-    }
 
+
+        City citySource = this.graph.getCityByName(source);
+        City cityDestination = this.graph.getCityByName(destination);
+        Dijkstra<City,Transport> applyMethod1 = new Dijkstra<City,Transport>();
+
+
+
+        return applyMethod1.getShortestPath(this.graph,citySource,cityDestination,timeEdgeWeight);
+    }
+// TODO: implement this method!
     /**
      * Finds the cheapest route in between two cities
      *
@@ -111,9 +121,15 @@ public class TravelController implements ITravelController<City, Transport> {
      */
     @Override
     public List<Transport> cheapestRoute(String source, String destination) {
-        // TODO: implement this method!
-        Function<Transport, Double> getCost = edge -> edge.getPrice();
-        return new ArrayList<>();
+
+        City citySource = this.graph.getCityByName(source);
+        City cityDestination = this.graph.getCityByName(destination);
+        Dijkstra<City,Transport> applyMethod2 = new Dijkstra<City,Transport>();
+
+
+        return applyMethod2.getShortestPath(this.graph,citySource,cityDestination,priceEdgeWeight);
+
+
     }
 
 
@@ -127,8 +143,14 @@ public class TravelController implements ITravelController<City, Transport> {
      */
     @Override
     public List<Transport> mostDirectRoute(String source, String destination) {
+        City citySource = this.graph.getCityByName(source);
+        City cityDestination = this.graph.getCityByName(destination);
+        BFS<City,Transport>  applyMethod3 = new BFS<City,Transport>();
+
+        return applyMethod3.getPath(this.graph,citySource,cityDestination);
+
         // TODO: implement this method!
-        return new ArrayList<>();
+
     }
 
     /**
