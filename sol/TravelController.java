@@ -1,6 +1,7 @@
 package sol;
 
 import src.ITravelController;
+import src.TransportType;
 import src.TravelCSVParser;
 
 import java.io.IOException;
@@ -43,6 +44,18 @@ public class TravelController implements ITravelController<City, Transport> {
             return null; // need explicit return null to account for Void type
         };
 
+        Function<Map<String, String>, Void> addEdge = map -> {
+            if (this.graph.travelMap.containsKey(map.get("origin"))) {
+                City originCity = new City(map.get("origin"));
+                City destinationCity = new City(map.get("destination"));
+                TransportType type = TransportType.fromString(map.get("type"));
+                double price = Double.parseDouble(map.get("price"));
+                double duration = Double.parseDouble(map.get("duration"));
+                this.graph.addEdge(originCity, new Transport(originCity, destinationCity, type, price, duration));
+            }
+            return null;
+        };
+
         // TODO: create a variable that is of type Function<Map<String, String>, Void>
         //       that will build connections between nodes in a graph. Keep in mind
         //       that the input to this function is a hashmap that relates the
@@ -61,6 +74,12 @@ public class TravelController implements ITravelController<City, Transport> {
         // TODO: call parseTransportation with the second Function variable as an argument and
         //  the right file
 
+        try {
+            parser.parseTransportation(transportFile, addEdge);
+        } catch (IOException e) {
+            return "Error parsing file: " + transportFile;
+        }
+
         // hint: note that parseLocations and parseTransportation can
         //       throw IOExceptions. How can you handle these calls cleanly?
 
@@ -78,7 +97,7 @@ public class TravelController implements ITravelController<City, Transport> {
      */
     @Override
     public List<Transport> fastestRoute(String source, String destination) {
-        // TODO: implement this method!
+        Function<Transport, Double> getTime = edge -> edge.getMinutes();
         return new ArrayList<>();
     }
 
@@ -93,6 +112,7 @@ public class TravelController implements ITravelController<City, Transport> {
     @Override
     public List<Transport> cheapestRoute(String source, String destination) {
         // TODO: implement this method!
+        Function<Transport, Double> getCost = edge -> edge.getPrice();
         return new ArrayList<>();
     }
 
