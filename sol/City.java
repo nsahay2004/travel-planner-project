@@ -5,6 +5,7 @@ import src.IVertex;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.List;
 
 /**
  * A City class representing the vertex of a travel graph
@@ -38,7 +39,9 @@ public class City implements IVertex<Transport> {
     @Override
     public Set<Transport> getOutgoing() {
         // TODO: implement this method
-        return this.transportEdges;
+
+            return this.transportEdges;
+
     }
 
     /**
@@ -59,4 +62,6 @@ public class City implements IVertex<Transport> {
         return this.cityName;
         // TODO
     }
+
+
 }

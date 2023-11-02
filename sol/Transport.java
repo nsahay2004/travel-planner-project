@@ -10,15 +10,15 @@ import src.TransportType;
  */
 public class Transport implements IEdge<City>, ITransport {
 
-    City source;
+    private City source;
 
-    City destination;
+    private City destination;
 
-    TransportType type;
+    private TransportType type;
 
-    double price;
+   private double price;
 
-    double minutes;
+    private double minutes;
 
     /**
      * Constructor for Transport

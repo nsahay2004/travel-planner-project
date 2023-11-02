@@ -5,7 +5,7 @@ import src.IEdge;
 import src.IGraph;
 import src.IVertex;
 
-import java.util.List;
+import java.util.*;
 import java.util.function.Function;
 
 /**
@@ -29,11 +29,40 @@ public class Dijkstra<V extends IVertex<E>, E extends IEdge<V>> implements IDijk
     @Override
     public List<E> getShortestPath(IGraph<V, E> graph, V source, V destination,
                                    Function<E, Double> edgeWeight) {
-        // TODO: implement the getShortestPath method!
+        HashMap<V,E> cameFrom = new HashMap<V,E>();
+        HashMap<V,Double> cityCost  = new HashMap<V,Double>();
+        Comparator<V> leastCostCity = (city1,city2) -> {
+            return Double.compare(cityCost.get(city1),cityCost.get(city2));
+        };
+        PriorityQueue<V> toCheckQueue = new PriorityQueue<V>(leastCostCity);
 
-        // when you get to using a PriorityQueue, remember to remove and re-add a vertex to the
-        // PriorityQueue when its priority changes!
-        return null;
+        for (V city: graph.getVertices()){
+            cityCost.put(city,Double.POSITIVE_INFINITY);
+            toCheckQueue.add(city);
+        }
+        cityCost.put(source,0.0);
+
+        while(!toCheckQueue.isEmpty()){
+            V checkingCity = toCheckQueue.poll();
+            for (E neighbourEdge : checkingCity.getOutgoing()){
+                if (cityCost.get(checkingCity)  + edgeWeight.apply(neighbourEdge) < cityCost.get(neighbourEdge.getTarget())){
+                    cityCost.put((neighbourEdge.getTarget()), (cityCost.get(checkingCity)  + edgeWeight.apply(neighbourEdge)));
+                    cameFrom.put(neighbourEdge.getTarget(), neighbourEdge);
+                }
+            }
+
+        }
+        ArrayList<E> retList = new ArrayList<E>();
+        V checking = destination ;
+        while(checking != source) {
+            E newEdge = cameFrom.get(checking);
+            retList.add(0, newEdge);
+            checking = newEdge.getSource();
+        }
+
+
+        return retList;
+
     }
 
     // TODO: feel free to add your own methods here!
