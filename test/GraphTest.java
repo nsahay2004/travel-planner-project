@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import sol.City;
 import sol.Transport;
+import sol.TravelController;
 import sol.TravelGraph;
 import src.TransportType;
 import test.simple.SimpleEdge;
@@ -153,4 +154,12 @@ public class GraphTest {
     }
 
     // TODO: write more tests + make sure you test all the cases in your testing plan!
+
+    @Test
+    public void testLoad() {
+        TravelController travelController = new TravelController();
+        travelController.load("data/cities1.csv", "data/transport1.csv");
+        assertEquals(3, travelController.getGraph().getVertices().size());
+        assertEquals(3, travelController.getGraph().getOutgoingEdges(new City("Boston")).size());
+    }
 }
