@@ -57,6 +57,10 @@ public class City implements IVertex<Transport> {
         }
     }
 
+    /**
+     * returns the city's name as a string
+     */
+
     @Override
     public String toString() {
         return this.cityName;

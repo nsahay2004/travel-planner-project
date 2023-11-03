@@ -26,11 +26,17 @@ public class BFS<V extends IVertex<E>, E extends IEdge<V>> implements IBFS<V, E>
      */
     @Override
     public List<E> getPath(IGraph<V, E> graph, V start, V end) {
+        //Initialize the toCheck List for  and the visited HashSet for visited cities.
+        //Creates a hashmap cameFrom from cities to transport to store how we get to a city (what transport edge)
         LinkedList<V> toCheck  = new LinkedList<V>();
         HashSet<V> visited = new HashSet<V>();
         HashMap<V,E> cameFrom = new HashMap<V,E>();
         toCheck.add(start);
         visited.add(start);
+
+        // creates a while loop that keeps updating the cameFrom map until toCheck is empty
+        // if the vertex we are checking is the end we are trying to reach , it does the backtracking to get the path
+        // if not, it keeps updating the cameFrom, toCheck and visited
 
         while(!toCheck.isEmpty()) {
             V checkingVertex = toCheck.removeFirst();

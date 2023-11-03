@@ -14,6 +14,8 @@ import java.util.function.Function;
 /**
  * Implementation for TravelController
  */
+
+
 public class TravelController implements ITravelController<City, Transport> {
 
     // Why is this field of type TravelGraph and not IGraph?
@@ -128,7 +130,7 @@ public class TravelController implements ITravelController<City, Transport> {
         Dijkstra<City,Transport> applyMethod2 = new Dijkstra<City,Transport>();
 
 
-        return applyMethod2.getShortestPath(this.graph,citySource,cityDestination,priceEdgeWeight);
+        return applyMethod2.getShortestPath(this.graph,citySource,cityDestination,this.priceEdgeWeight);
 
 
     }
@@ -154,6 +156,12 @@ public class TravelController implements ITravelController<City, Transport> {
 
     }
 
+    /**
+     * method for testing --> getting the total sum of price edgeWeight for a path
+     * @param path - path of transport edges
+     * @return - returns a double
+     */
+
     public static double getSumofPriceWeight(List<Transport> path) {
         double total = 0;
         for (Transport segment : path) {
@@ -161,6 +169,13 @@ public class TravelController implements ITravelController<City, Transport> {
         }
         return total;
     }
+
+    /**
+     * method for testing ->getting the total sum of time edgeWeight for a path
+     * @param path - path of transport edges
+     * @return - returns a double
+     *
+     */
 
     public static double getSumofTimeWeight(List<Transport> path) {
         double total = 0;

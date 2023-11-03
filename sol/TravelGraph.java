@@ -111,6 +111,11 @@ public class TravelGraph implements IGraph<City, Transport> {
 
     }
 
+    /**
+     *
+     * @param cityName - name of city whose name you want to get
+     * @return - the city you are looking for in the map
+     */
     public City getCityByName(String cityName){
         return this.travelMap.get(cityName);
     }
