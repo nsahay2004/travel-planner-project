@@ -1,0 +1,10 @@
+origin,destination,type,price,duration
+Delhi,Newport News,bus,50,110
+Newport News,Paris,train,110,10
+Newport News,Rome,plane,220,5
+Paris,Delhi,plane,1000,1000
+Paris,Delhi,train,10,200
+Paris,Rome,bus,100,20
+Rome,Paris,plane,150,27
+Rome,Providence,bus,50,110
+Rome,Rome,train,30,30
