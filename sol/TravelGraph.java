@@ -27,8 +27,8 @@ public class TravelGraph implements IGraph<City, Transport> {
      */
     @Override
     public void addVertex(City vertex) {
-        if (!this.travelMap.containsKey(vertex.getCityName())) {
-            this.travelMap.put(vertex.getCityName(), vertex);
+        if (!this.travelMap.containsKey(vertex.toString())) {
+            this.travelMap.put(vertex.toString(), vertex);
         }
     }
 
@@ -43,13 +43,13 @@ public class TravelGraph implements IGraph<City, Transport> {
         //make sure the edge has a source of the city
         //are we assuming that the origin city currently doesn't have this edge in it
         //maybe we should throw an exception
-        if (edge.getSource().getCityName().equals(origin.getCityName())) {
-            if (this.travelMap.containsKey(origin.getCityName())) {
-                City realCity = this.travelMap.get(origin.getCityName());
+        if (edge.getSource().toString().equals(origin.toString())) {
+            if (this.travelMap.containsKey(origin.toString())) {
+                City realCity = this.travelMap.get(origin.toString());
                 realCity.addOut(edge);
             } else {
                 origin.addOut(edge);
-                this.travelMap.put(origin.getCityName(), origin);
+                this.travelMap.put(origin.toString(), origin);
             }
         }
     }
@@ -80,7 +80,7 @@ public class TravelGraph implements IGraph<City, Transport> {
     public City getEdgeSource(Transport edge) {
         // we assume that the city already exists
 
-            String cityName = edge.getSource().getCityName();
+            String cityName = edge.getSource().toString();
             return this.travelMap.get(cityName);
 
     }
@@ -94,7 +94,7 @@ public class TravelGraph implements IGraph<City, Transport> {
     @Override
     public City getEdgeTarget(Transport edge) {
         // we are assuming the destination exists in the map
-        String cityName = edge.getTarget().getCityName();
+        String cityName = edge.getTarget().toString();
         return this.travelMap.get(cityName);
     }
 
@@ -106,7 +106,7 @@ public class TravelGraph implements IGraph<City, Transport> {
      */
     @Override
     public Set<Transport> getOutgoingEdges(City fromVertex) {
-        String vertexName = fromVertex.getCityName();
+        String vertexName = fromVertex.toString();
         return this.travelMap.get(vertexName).getOutgoing();
 
     }

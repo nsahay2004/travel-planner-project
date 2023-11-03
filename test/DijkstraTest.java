@@ -128,8 +128,8 @@ public class DijkstraTest {
         this.setup1();
         List<Transport> path = this.controller1.fastestRoute("Boston", "Providence");
         assertEquals(1,path.size());
-        assertEquals("Boston", path.get(0).getSource().getCityName());
-        assertEquals("Providence", path.get(0).getTarget().getCityName());
+        assertEquals("Boston", path.get(0).getSource().toString());
+        assertEquals("Providence", path.get(0).getTarget().toString());
     }
 
     @Test
