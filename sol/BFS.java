@@ -46,9 +46,9 @@ public class BFS<V extends IVertex<E>, E extends IEdge<V>> implements IBFS<V, E>
             }
             for (E neighbourEdge : checkingVertex.getOutgoing()){
                 if (!visited.contains(neighbourEdge.getTarget())){
-                    visited.add(neighbourEdge.getTarget());
-                    toCheck.add(neighbourEdge.getTarget());
-                    cameFrom.put(neighbourEdge.getTarget(), neighbourEdge);
+                    visited.add(graph.getEdgeTarget(neighbourEdge));
+                    toCheck.add(graph.getEdgeTarget(neighbourEdge));
+                    cameFrom.put(graph.getEdgeTarget(neighbourEdge), neighbourEdge);
 
                 }
             }
