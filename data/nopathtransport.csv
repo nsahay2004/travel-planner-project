@@ -1,0 +1,4 @@
+origin,destination,type,price,duration
+Boston,Providence,bus,4,4
+Providence,Boston,train,4,4
+New York City,Boston,plane,4,4
