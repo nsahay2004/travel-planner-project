@@ -37,10 +37,15 @@ public class Dijkstra<V extends IVertex<E>, E extends IEdge<V>> implements IDijk
         PriorityQueue<V> toCheckQueue = new PriorityQueue<V>(leastCostCity);
 
         for (V city: graph.getVertices()){
-            cityCost.put(city,Double.POSITIVE_INFINITY);
+            if (city.toString().equals(source.toString())){
+                cityCost.put(source,0.0);
+            }
+            else {
+                cityCost.put(city, Double.POSITIVE_INFINITY);
+            }
             toCheckQueue.add(city);
         }
-        cityCost.put(source,0.0);
+
 
         while(!toCheckQueue.isEmpty()){
             V checkingCity = toCheckQueue.poll();
