@@ -14,6 +14,8 @@ import test.simple.SimpleVertex;
 import org.junit.FixMethodOrder;
 import org.junit.Before;
 
+import java.util.Set;
+
 import static org.junit.Assert.*;
 
 /**
@@ -116,17 +118,15 @@ public class GraphTest {
      */
     @Test
     public void testGetVertices() {
-
-
         // test getVertices to check this method AND insertVertex
-        assertEquals(this.travelGraph.getVertices().size(), 3);
+        assertEquals(this.travelGraph.getVertices().size(), 4);
         assertTrue(this.travelGraph.getVertices().contains(this.clovis));
         assertTrue(this.travelGraph.getVertices().contains(this.girard));
         assertTrue(this.travelGraph.getVertices().contains(this.golden));
         assertFalse(this.travelGraph.getVertices().contains(new City("Boston")));
         City boston = new City ("Boston");
         this.travelGraph.addVertex(boston);
-       assertTrue(this.travelGraph.getVertices().contains(boston));
+        assertTrue(this.travelGraph.getVertices().contains(boston));
     }
 
     @Test
@@ -173,5 +173,46 @@ public class GraphTest {
         travelController.load("data/emptycities.csv", "data/emptytransport.csv");
         assertEquals(0, travelController.getGraph().getVertices().size());
         assertNull(travelController.getGraph().getCityByName("nasa peepo"));
+    }
+
+    /**
+     * test for GetOutgoing in City
+     */
+    @Test
+    public void testGetOutgoing() {
+        this.createNewGraph();
+        Set<Transport> clovisEdge = this.clovis.getOutgoing();
+        assertEquals(1, clovisEdge.size());
+        Set<Transport> londonEdge = this.london.getOutgoing();
+        assertEquals(0, londonEdge.size());
+    }
+
+    /**
+     * testing AddOut method in City
+     */
+    @Test
+    public void testAddOut() {
+        this.createNewGraph();
+        Set<Transport> clovisEdge = this.clovis.getOutgoing();
+        assertEquals(1, clovisEdge.size());
+        Transport clovisLondon = new Transport(this.clovis, this.london, TransportType.TRAIN, 3, 3);
+        this.clovis.addOut(clovisLondon);
+        Set<Transport> clovisEdges = this.clovis.getOutgoing();
+        assertEquals(2, clovisEdges.size());
+        Set<Transport> londonEdge = this.london.getOutgoing();
+        assertEquals(0, londonEdge.size());
+        Transport londonClovis = new Transport(this.london, this.clovis, TransportType.TRAIN, 3, 3);
+        this.london.addOut(londonClovis);
+        assertEquals(1, londonEdge.size());
+        this.london.addOut(clovisLondon);
+        assertEquals(1, this.london.getOutgoing().size());
+    }
+
+    /**
+     * simple test for the toString method
+     */
+    @Test
+    public void testToString() {
+        assertEquals("Clovis", this.clovis.toString());
     }
 }
