@@ -14,9 +14,7 @@ import test.simple.SimpleVertex;
 import org.junit.FixMethodOrder;
 import org.junit.Before;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.*;
 
 /**
  * Your Graph method tests should all go in this class!
@@ -133,10 +131,10 @@ public class GraphTest {
 
     @Test
     public void testGetEdgeSourceAndTarget(){
-        assertEquals("Clovis", this.clovisGolden.getSource().getCityName());
-        assertEquals("Girard", this.girardGolden.getSource().getCityName());
-        assertEquals("Golden", this.clovisGolden.getTarget().getCityName());
-        assertEquals("Golden", this.girardGolden.getTarget().getCityName());
+        assertEquals("Clovis", this.clovisGolden.getSource().toString());
+        assertEquals("Girard", this.girardGolden.getSource().toString());
+        assertEquals("Golden", this.clovisGolden.getTarget().toString());
+        assertEquals("Golden", this.girardGolden.getTarget().toString());
     }
 
     @Test
@@ -153,8 +151,9 @@ public class GraphTest {
 
     }
 
-    // TODO: write more tests + make sure you test all the cases in your testing plan!
-
+    /**
+     * testing we can basically load something-- this graph has a cycle in it
+     */
     @Test
     public void testLoad() {
         TravelController travelController = new TravelController();
@@ -163,6 +162,16 @@ public class GraphTest {
         assertEquals(3, travelController.getGraph().getOutgoingEdges(new City("Boston")).size());
         assertEquals(2, travelController.getGraph().getOutgoingEdges(new City("New York City")).size());
         assertEquals(2, travelController.getGraph().getOutgoingEdges(new City("Providence")).size());
+    }
 
+    /**
+     * testing we can load an empty graph
+     */
+    @Test
+    public void testLoadEmpty() {
+        TravelController travelController = new TravelController();
+        travelController.load("data/emptycities.csv", "data/emptytransport.csv");
+        assertEquals(0, travelController.getGraph().getVertices().size());
+        assertNull(travelController.getGraph().getCityByName("nasa peepo"));
     }
 }
