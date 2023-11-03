@@ -1,11 +1,18 @@
 package test;
 
+import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 import sol.Dijkstra;
 import src.IDijkstra;
 import test.simple.SimpleEdge;
 import test.simple.SimpleGraph;
 import test.simple.SimpleVertex;
+import sol.TravelGraph;
+import sol.TravelController;
+import sol.City;
+import sol.Transport;
 
 import java.util.List;
 import java.util.function.Function;
@@ -23,6 +30,7 @@ import static org.junit.Assert.assertTrue;
  * TODO: Recreate the test below for the City and Transport classes
  * TODO: Expand on your tests, accounting for basic cases and edge cases
  */
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class DijkstraTest {
 
     private static final double DELTA = 0.001;
@@ -33,6 +41,18 @@ public class DijkstraTest {
     private SimpleVertex c;
     private SimpleVertex d;
     private SimpleVertex e;
+
+    private TravelController controller1;
+
+
+
+
+    public void setup1(){
+        this.controller1 = new TravelController();
+        this.controller1.load("data/cities1.csv","data/transport1.csv");
+         TravelGraph testGraph1 = this.controller1.getGraph();
+
+    }
 
     /**
      * Creates a simple graph.
@@ -86,6 +106,13 @@ public class DijkstraTest {
         path = dijkstra.getShortestPath(this.graph, this.c, this.b, edgeWeightCalculation);
         assertEquals(3, SimpleGraph.getTotalEdgeWeight(path), DELTA);
         assertEquals(2, path.size());
+    }
+
+    @Test
+    public void test1(){
+        this.setup1();
+        List<Transport> path = this.controller1.fastestRoute("Boston", "Providence");
+        assertEquals(1,path.size());
     }
 
     // TODO: write more tests + make sure you test all the cases in your testing plan!
