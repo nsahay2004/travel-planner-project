@@ -154,10 +154,18 @@ public class TravelController implements ITravelController<City, Transport> {
 
     }
 
-    public static double getSumofEdgeWeight(List<Transport> path, Function <Transport,Double> edgeWeightCalculate) {
+    public static double getSumofPriceWeight(List<Transport> path) {
         double total = 0;
         for (Transport segment : path) {
-            total += edgeWeightCalculate.apply(segment);
+            total += segment.getPrice();
+        }
+        return total;
+    }
+
+    public static double getSumofTimeWeight(List<Transport> path) {
+        double total = 0;
+        for (Transport segment : path) {
+            total += segment.getMinutes();
         }
         return total;
     }

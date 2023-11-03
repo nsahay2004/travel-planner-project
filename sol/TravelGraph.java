@@ -79,8 +79,10 @@ public class TravelGraph implements IGraph<City, Transport> {
     @Override
     public City getEdgeSource(Transport edge) {
         // we assume that the city already exists
-        String cityName = edge.getSource().getCityName();
-        return this.travelMap.get(cityName);
+
+            String cityName = edge.getSource().getCityName();
+            return this.travelMap.get(cityName);
+
     }
 
     /**
