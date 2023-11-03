@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class City implements IVertex<Transport> {
 
-    private  String cityName;
+    private String cityName;
 
     private HashSet<Transport> transportEdges;
 
@@ -23,12 +23,6 @@ public class City implements IVertex<Transport> {
     public City(String name) {
         this.cityName = name;
         this.transportEdges = new HashSet<Transport>();
-        // TODO: implement this method
-    }
-
-
-    public String getCityName(){
-        return this.cityName;
     }
 
     /**
@@ -38,10 +32,7 @@ public class City implements IVertex<Transport> {
      */
     @Override
     public Set<Transport> getOutgoing() {
-        // TODO: implement this method
-
             return this.transportEdges;
-
     }
 
     /**
@@ -51,17 +42,13 @@ public class City implements IVertex<Transport> {
      */
     @Override
     public void addOut(Transport outEdge) {
-        if (!this.transportEdges.contains(outEdge)) {
+        if (!this.transportEdges.contains(outEdge) && this.cityName.equals(outEdge.getSource().toString())) {
             this.transportEdges.add(outEdge);
-            // TODO: implement this method
         }
     }
 
     @Override
     public String toString() {
         return this.cityName;
-        // TODO
     }
-
-
 }
