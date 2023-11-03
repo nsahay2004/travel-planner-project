@@ -1,10 +1,7 @@
 package test;
 
 import org.junit.Test;
-import sol.BFS;
-import sol.City;
-import sol.Transport;
-import sol.TravelGraph;
+import sol.*;
 import src.TransportType;
 import test.simple.SimpleEdge;
 import test.simple.SimpleGraph;
@@ -46,6 +43,7 @@ public class BFSTest {
     private Transport girardGolden;
     private TravelGraph travelGraph;
 
+    private TravelController travelController;
 
     /**
      * Creates a simple graph.
@@ -111,6 +109,12 @@ public class BFSTest {
 
     }
 
+    public void makeDelhiGraph() {
+        this.travelController = new TravelController();
+        this.travelController.load("data/testcities.csv", "data/testtransports.csv");
+        this.travelGraph = this.travelController.getGraph();
+    }
+
     /**
      * A sample test that tests BFS on a simple graph. Checks that running BFS gives us the path we expect.
      */
@@ -135,5 +139,22 @@ public class BFSTest {
         assertEquals(1, path2.size());
         List<Transport> path3 = bfs.getPath(this.travelGraph, this.london, this.golden);
         assertEquals(0, path3.size());
+    }
+
+    /**
+     * testing where most direct isn't cheapest,
+     * where no path exists to the city,
+     * and where city and dest are same
+     */
+
+    @Test
+    public void testDelhiBFS() {
+        this.makeDelhiGraph();
+        List<Transport> toRome = this.travelController.mostDirectRoute("Delhi", "Rome");
+        assertEquals(2, toRome.size());
+        List<Transport> toLondon = this.travelController.mostDirectRoute("Delhi", "London");
+        assertEquals(0, toLondon.size());
+        List<Transport> toDelhi = this.travelController.mostDirectRoute("Delhi", "Delhi");
+        assertEquals(0, toDelhi.size());
     }
 }
