@@ -36,6 +36,7 @@ public class Dijkstra<V extends IVertex<E>, E extends IEdge<V>> implements IDijk
         };
         PriorityQueue<V> toCheckQueue = new PriorityQueue<V>(leastCostCity);
 
+        //populates city cost map
         for (V city: graph.getVertices()){
             if (city.toString().equals(source.toString())){
                 cityCost.put(source,0.0);
@@ -51,22 +52,35 @@ public class Dijkstra<V extends IVertex<E>, E extends IEdge<V>> implements IDijk
         while(!toCheckQueue.isEmpty()){
             V checkingCity = toCheckQueue.poll();
 
+
             for (E neighbourEdge : checkingCity.getOutgoing()){
-                V goingCity = graph.getEdgeTarget(neighbourEdge);
-                Double currentCost = cityCost.get(goingCity);
-                if (cityCost.get(checkingCity)  + edgeWeight.apply(neighbourEdge) < currentCost){
-                    cityCost.put(graph.getEdgeTarget(neighbourEdge), (cityCost.get(checkingCity)  + edgeWeight.apply(neighbourEdge)));
-                    cameFrom.put(graph.getEdgeTarget(neighbourEdge), neighbourEdge);
+                if (toCheckQueue.contains(graph.getEdgeTarget(neighbourEdge))) {
+                    V goingCity = graph.getEdgeTarget(neighbourEdge);
+                    Double currentCost = cityCost.get(goingCity);
+
+                    if (cityCost.get(checkingCity) + edgeWeight.apply(neighbourEdge) < currentCost) {
+                        cityCost.put(goingCity, (cityCost.get(checkingCity) + edgeWeight.apply(neighbourEdge)));
+                        cameFrom.put(goingCity, neighbourEdge);
+                        toCheckQueue.remove(goingCity);
+                        toCheckQueue.add(goingCity);
+                    }
+                    //System.out.println(toCheckQueue);
                 }
             }
 
         }
         ArrayList<E> retList = new ArrayList<E>();
-        V checking = destination ;
-        while(checking != source) {
-            E newEdge = cameFrom.get(checking);
-            retList.add(0, newEdge);
-            checking = graph.getEdgeSource(newEdge);
+        if (cityCost.get(destination) != Double.POSITIVE_INFINITY) {
+            V checking = destination;
+            while (checking != source) {
+                E newEdge = cameFrom.get(checking);
+                if (newEdge != null) {
+                    retList.add(0, newEdge);
+                    checking = graph.getEdgeSource(newEdge);
+                }
+
+
+            }
         }
 
 

@@ -45,6 +45,8 @@ public class DijkstraTest {
     private TravelController controller1;
     private TravelController controller2;
 
+    private TravelController controller3;
+
 
 
 
@@ -59,6 +61,12 @@ public class DijkstraTest {
         this.controller2 = new TravelController();
         this.controller2.load("data/cities2.csv","data/transport2.csv");
         TravelGraph testGraph2 = this.controller2.getGraph();
+    }
+
+    public void setup3(){
+        this.controller3 = new TravelController();
+        this.controller3.load("data/testcities.csv", "data/testtransports.csv");
+        TravelGraph testGraph3 = this.controller3.getGraph();
     }
 
     /**
@@ -129,7 +137,9 @@ public class DijkstraTest {
         this.setup1();
         List<Transport> path = this.controller1.cheapestRoute("Providence", "New York City");
         assertEquals(2, path.size());
-        //assertEquals(274, this.controller1.getSumofEdgeWeight(path, this.controller1.priceEdgeWeight));
+        assertEquals(274, this.controller1.getSumofPriceWeight(path), DELTA);
+        List<Transport> path1 = this.controller1.cheapestRoute("Providence", "Providence");
+        assertEquals(0, path1.size());
     }
 
     @Test
@@ -137,6 +147,20 @@ public class DijkstraTest {
         this.setup2();
         List<Transport> path = this.controller2.cheapestRoute("London","Washington");
         assertEquals(0, path.size());
+
+    }
+
+    @Test
+    public void test4(){
+        this.setup3();
+        List<Transport> path1 = this.controller3.cheapestRoute("Delhi","Rome");
+        assertEquals(3, path1.size());
+        assertEquals(260, this.controller3.getSumofPriceWeight(path1), DELTA );
+        List<Transport> path2 = this.controller3.fastestRoute("Delhi","Rome");
+        assertEquals(2,path2.size());
+        assertEquals(115, this.controller3.getSumofTimeWeight(path2), DELTA);
+        List<Transport> path3 = this.controller3.cheapestRoute("Providence","Delhi");
+        assertEquals(0,path3.size());
 
     }
 
