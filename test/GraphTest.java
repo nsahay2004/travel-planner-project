@@ -161,5 +161,8 @@ public class GraphTest {
         travelController.load("data/cities1.csv", "data/transport1.csv");
         assertEquals(3, travelController.getGraph().getVertices().size());
         assertEquals(3, travelController.getGraph().getOutgoingEdges(new City("Boston")).size());
+        assertEquals(2, travelController.getGraph().getOutgoingEdges(new City("New York City")).size());
+        assertEquals(2, travelController.getGraph().getOutgoingEdges(new City("Providence")).size());
+
     }
 }
