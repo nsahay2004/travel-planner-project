@@ -40,7 +40,7 @@ public class BFS<V extends IVertex<E>, E extends IEdge<V>> implements IBFS<V, E>
                 while(checking != start){
                     E newEdge = cameFrom.get(checking);
                     retList.add(0,newEdge);
-                    checking  = newEdge.getSource();
+                    checking  = graph.getEdgeSource(newEdge);
                 }
                 return retList;
             }

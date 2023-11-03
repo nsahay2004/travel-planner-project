@@ -2,6 +2,10 @@ package test;
 
 import org.junit.Test;
 import sol.BFS;
+import sol.City;
+import sol.Transport;
+import sol.TravelGraph;
+import src.TransportType;
 import test.simple.SimpleEdge;
 import test.simple.SimpleGraph;
 import test.simple.SimpleVertex;
@@ -31,6 +35,17 @@ public class BFSTest {
     private SimpleVertex e;
     private SimpleVertex f;
     private SimpleGraph graph;
+
+    private City girard;
+    private City golden;
+    private City clovis;
+    private City london;
+    private Transport girardClovis;
+    private Transport clovisGolden;
+    private Transport goldenGirard;
+    private Transport girardGolden;
+    private TravelGraph travelGraph;
+
 
     /**
      * Creates a simple graph.
@@ -66,6 +81,37 @@ public class BFSTest {
     }
 
     /**
+     * makes graph with regular edges and vertexes
+     */
+    public void makeMafiaGraph() {
+        this.travelGraph = new TravelGraph();
+
+        this.clovis = new City("Clovis");
+        this.girard = new City("Girard");
+        this.golden = new City("Golden");
+        this.london = new City("London");
+
+        this.travelGraph.addVertex(this.clovis);
+        this.travelGraph.addVertex(this.girard);
+        this.travelGraph.addVertex(this.golden);
+        this.travelGraph.addVertex(this.london);
+
+        //i am not testing if the transport connects to the right object
+        //maybe we should????
+        //but maybe we deal with this when we create our graph
+        this.clovisGolden = new Transport(new City("Clovis"), new City("Golden"), TransportType.TRAIN, 20, 240);
+        this.girardClovis = new Transport(this.girard, new City("Clovis"), TransportType.PLANE, 100, 20);
+        this.girardGolden = new Transport(new City("Girard"), this.golden, TransportType.BUS, 10, 100);
+        this.goldenGirard = new Transport(this.golden, this.girard, TransportType.PLANE, 40, 40);
+
+        this.travelGraph.addEdge(this.clovis, this.clovisGolden);
+        this.travelGraph.addEdge(new City("Girard"), this.girardGolden);
+        this.travelGraph.addEdge(this.girard, this.girardClovis);
+        this.travelGraph.addEdge(this.golden, this.goldenGirard);
+
+    }
+
+    /**
      * A sample test that tests BFS on a simple graph. Checks that running BFS gives us the path we expect.
      */
     @Test
@@ -77,5 +123,14 @@ public class BFSTest {
         assertEquals(path.size(), 2);
     }
 
-    // TODO: write more tests + make sure you test all the cases in your testing plan!
+    // TODO: write more tests +
+
+    @Test
+    public void testBostonBFS() {
+        this.makeMafiaGraph();
+        BFS<City, Transport> bfs = new BFS<>();
+        List<Transport> path = bfs.getPath(this.travelGraph, this.clovis, this.girard);
+        assertEquals(2, path.size());
+
+    }
 }
