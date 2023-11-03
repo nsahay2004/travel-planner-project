@@ -47,12 +47,16 @@ public class Dijkstra<V extends IVertex<E>, E extends IEdge<V>> implements IDijk
         }
 
 
+
         while(!toCheckQueue.isEmpty()){
             V checkingCity = toCheckQueue.poll();
+
             for (E neighbourEdge : checkingCity.getOutgoing()){
-                if (cityCost.get(checkingCity)  + edgeWeight.apply(neighbourEdge) < cityCost.get(neighbourEdge.getTarget())){
-                    cityCost.put((neighbourEdge.getTarget()), (cityCost.get(checkingCity)  + edgeWeight.apply(neighbourEdge)));
-                    cameFrom.put(neighbourEdge.getTarget(), neighbourEdge);
+                V goingCity = graph.getEdgeTarget(neighbourEdge);
+                Double currentCost = cityCost.get(goingCity);
+                if (cityCost.get(checkingCity)  + edgeWeight.apply(neighbourEdge) < currentCost){
+                    cityCost.put(graph.getEdgeTarget(neighbourEdge), (cityCost.get(checkingCity)  + edgeWeight.apply(neighbourEdge)));
+                    cameFrom.put(graph.getEdgeTarget(neighbourEdge), neighbourEdge);
                 }
             }
 
@@ -62,7 +66,7 @@ public class Dijkstra<V extends IVertex<E>, E extends IEdge<V>> implements IDijk
         while(checking != source) {
             E newEdge = cameFrom.get(checking);
             retList.add(0, newEdge);
-            checking = newEdge.getSource();
+            checking = graph.getEdgeSource(newEdge);
         }
 
 
