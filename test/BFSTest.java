@@ -131,6 +131,9 @@ public class BFSTest {
         BFS<City, Transport> bfs = new BFS<>();
         List<Transport> path = bfs.getPath(this.travelGraph, this.clovis, this.girard);
         assertEquals(2, path.size());
-
+        List<Transport> path2 = bfs.getPath(this.travelGraph, this.golden, this.girard);
+        assertEquals(1, path2.size());
+        List<Transport> path3 = bfs.getPath(this.travelGraph, this.london, this.golden);
+        assertEquals(0, path3.size());
     }
 }

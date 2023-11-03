@@ -45,7 +45,7 @@ public class BFS<V extends IVertex<E>, E extends IEdge<V>> implements IBFS<V, E>
                 return retList;
             }
             for (E neighbourEdge : checkingVertex.getOutgoing()){
-                if (!visited.contains(neighbourEdge.getTarget())){
+                if (!visited.contains(graph.getEdgeTarget(neighbourEdge))){
                     visited.add(graph.getEdgeTarget(neighbourEdge));
                     toCheck.add(graph.getEdgeTarget(neighbourEdge));
                     cameFrom.put(graph.getEdgeTarget(neighbourEdge), neighbourEdge);
