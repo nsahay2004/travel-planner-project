@@ -3,6 +3,7 @@ package sol;
 import src.ITravelController;
 import src.TransportType;
 import src.TravelCSVParser;
+import test.simple.SimpleEdge;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -46,8 +47,8 @@ public class TravelController implements ITravelController<City, Transport> {
 
         Function<Map<String, String>, Void> addEdge = map -> {
             if (this.graph.travelMap.containsKey(map.get("origin"))) {
-                City originCity = new City(map.get("origin"));
-                City destinationCity = new City(map.get("destination"));
+                City originCity = this.graph.getCityByName(map.get("origin"));
+                City destinationCity = this.graph.getCityByName(map.get("destination"));
                 TransportType type = TransportType.fromString(map.get("type"));
                 double price = Double.parseDouble(map.get("price"));
                 double duration = Double.parseDouble(map.get("duration"));
@@ -108,7 +109,7 @@ public class TravelController implements ITravelController<City, Transport> {
 
 
 
-        return applyMethod1.getShortestPath(this.graph,citySource,cityDestination,timeEdgeWeight);
+        return applyMethod1.getShortestPath(this.graph,citySource,cityDestination,this.timeEdgeWeight);
     }
 // TODO: implement this method!
     /**
@@ -151,6 +152,14 @@ public class TravelController implements ITravelController<City, Transport> {
 
         // TODO: implement this method!
 
+    }
+
+    public static double getSumofEdgeWeight(List<Transport> path, Function <Transport,Double> edgeWeightCalculate) {
+        double total = 0;
+        for (Transport segment : path) {
+            total += edgeWeightCalculate.apply(segment);
+        }
+        return total;
     }
 
     /**

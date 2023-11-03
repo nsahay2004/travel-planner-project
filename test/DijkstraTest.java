@@ -43,6 +43,7 @@ public class DijkstraTest {
     private SimpleVertex e;
 
     private TravelController controller1;
+    private TravelController controller2;
 
 
 
@@ -52,6 +53,12 @@ public class DijkstraTest {
         this.controller1.load("data/cities1.csv","data/transport1.csv");
          TravelGraph testGraph1 = this.controller1.getGraph();
 
+    }
+
+    public void setup2(){
+        this.controller2 = new TravelController();
+        this.controller2.load("data/cities2.csv","data/transport2.csv");
+        TravelGraph testGraph2 = this.controller2.getGraph();
     }
 
     /**
@@ -113,6 +120,24 @@ public class DijkstraTest {
         this.setup1();
         List<Transport> path = this.controller1.fastestRoute("Boston", "Providence");
         assertEquals(1,path.size());
+        assertEquals("Boston", path.get(0).getSource().getCityName());
+        assertEquals("Providence", path.get(0).getTarget().getCityName());
+    }
+
+    @Test
+    public void test2(){
+        this.setup1();
+        List<Transport> path = this.controller1.cheapestRoute("Providence", "New York City");
+        assertEquals(2, path.size());
+        //assertEquals(274, this.controller1.getSumofEdgeWeight(path, this.controller1.priceEdgeWeight));
+    }
+
+    @Test
+    public void test3(){
+        this.setup2();
+        List<Transport> path = this.controller2.cheapestRoute("London","Washington");
+        assertEquals(0, path.size());
+
     }
 
     // TODO: write more tests + make sure you test all the cases in your testing plan!
